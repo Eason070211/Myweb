@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <h1 class="display-4">Welcome to My Website</h1>
+        <p class="lead">This is a portfolio/personal site built with Flask</p>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('portfolio') }}" class="btn btn-primary btn-lg">View Portfolio</a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">Login to View Portfolio</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
