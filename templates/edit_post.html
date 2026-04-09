@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}编辑帖子 - Eason's Website{% endblock %}
+
+{% block content %}
+<article class="post-block">
+    <header class="post-header">
+        <h2 class="post-title">✏️ 编辑帖子</h2>
+    </header>
+    
+    <div class="post-body">
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">标题</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">分类</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="随笔" {% if post.category == '随笔' %}selected{% endif %}>随笔</option>
+                    <option value="技术" {% if post.category == '技术' %}selected{% endif %}>技术</option>
+                    <option value="学习" {% if post.category == '学习' %}selected{% endif %}>学习</option>
+                    <option value="生活" {% if post.category == '生活' %}selected{% endif %}>生活</option>
+                    <option value="旅行" {% if post.category == '旅行' %}selected{% endif %}>旅行</option>
+                    <option value="设计" {% if post.category == '设计' %}selected{% endif %}>设计</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="content">内容</label>
+                <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">保存更改</button>
+            <a href="{{ url_for('post_detail', post_id=post.id) }}" class="btn" style="margin-left: 10px;">取消</a>
+        </form>
+    </div>
+</article>
+{% endblock %}

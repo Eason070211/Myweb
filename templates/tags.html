@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Tags - Eason's Website{% endblock %}
+
+{% block content %}
+<div class="post-block">
+    <header class="post-header">
+        <h2 class="post-title">Tags</h2>
+    </header>
+    <div class="post-body">
+        {% if tags %}
+        <div class="tag-cloud-tags">
+            {% for tag in tags %}
+            <a href="{{ url_for('index', tag=tag.name) }}" class="tag-cloud-tag">
+                {{ tag.name }} <span>({{ tag.count }})</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% if tag_filter %}
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('index') }}" class="btn">Show All</a>
+        </div>
+        {% endif %}
+        {% else %}
+        <p style="color: var(--text-muted);">No tags yet.</p>
+        {% endif %}
+        
+        {% if current_user.is_authenticated and current_user.username == 'admin' %}
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+            <h3 style="font-size: 14px; margin-bottom: 15px;">Manage Tags</h3>
+            <form method="POST" action="{{ url_for('manage_tag') }}" style="margin-bottom: 15px;">
+                <input type="text" name="tag_name" class="form-control" placeholder="New tag name" style="margin-bottom: 10px;" required>
+                <button type="submit" name="action" value="add" class="btn">Add Tag</button>
+            </form>
+            
+            {% if tags %}
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                {% for tag in tags %}
+                <form method="POST" action="{{ url_for('manage_tag') }}" style="display: inline;">
+                    <input type="hidden" name="tag_name" value="{{ tag.name }}">
+                    <button type="submit" name="action" value="delete" class="btn" style="padding: 6px 10px; font-size: 12px;" onclick="return confirm('Delete {{ tag.name }}?')">{{ tag.name }} ({{ tag.count }}) <span style="color: #ff6464;">×</span></button>
+                </form>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

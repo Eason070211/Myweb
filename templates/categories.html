@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Categories - Eason's Website{% endblock %}
+
+{% block content %}
+<div class="post-block">
+    <header class="post-header">
+        <h2 class="post-title">Categories</h2>
+    </header>
+    <div class="post-body">
+        {% if categories and categories[0].count > 0 %}
+        <div class="category-list">
+            {% for category in categories %}
+            {% if category.count > 0 %}
+            <a href="{{ url_for('index', category=category.name) }}" class="category-card">
+                <div class="category-name">{{ category.name }}</div>
+                <div class="category-count">{{ category.count }} posts</div>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% if category_filter %}
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('index') }}" class="btn">Show All</a>
+        </div>
+        {% endif %}
+        {% else %}
+        <p style="color: var(--text-muted);">No categories yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

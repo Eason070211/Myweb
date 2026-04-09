@@ -1,32 +1,39 @@
 {% extends "base.html" %}
 
-{% block title %}About - My Website{% endblock %}
+{% block title %}关于 - Eason's Website{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-        <h1>About Me</h1>
-        <p>This is the about section of my website. You can add information about yourself, your background, skills, or anything else you'd like to share.</p>
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <h3>Skills</h3>
-                <ul>
-                    <li>Web Development</li>
-                    <li>Python Programming</li>
-                    <li>Flask Framework</li>
-                    <li>HTML/CSS/JavaScript</li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <h3>Interests</h3>
-                <ul>
-                    <li>Technology</li>
-                    <li>Design</li>
-                    <li>Photography</li>
-                    <li>Travel</li>
-                </ul>
-            </div>
+<div class="post-block">
+    <header class="post-header">
+        <h2 class="post-title">关于我</h2>
+        <div class="post-meta">
+            <span><i class="far fa-calendar"></i>2026-04-08</span>
         </div>
+    </header>
+    <div class="post-body">
+        <p>欢迎来到我的个人网站！这里是我分享想法、技术和生活的地方。</p>
+        
+        <h3 style="margin-top: 30px; margin-bottom: 15px;">技能</h3>
+        <ul style="margin-left: 20px;">
+            <li>Web 开发</li>
+            <li>Python 编程</li>
+            <li>Flask 框架</li>
+            <li>HTML/CSS/JavaScript</li>
+        </ul>
+        
+        <h3 style="margin-top: 30px; margin-bottom: 15px;">兴趣爱好</h3>
+        <ul style="margin-left: 20px;">
+            <li>技术</li>
+            <li>设计</li>
+            <li>摄影</li>
+            <li>旅行</li>
+        </ul>
+        
+        <h3 style="margin-top: 30px; margin-bottom: 15px;">联系方式</h3>
+        <ul style="margin-left: 20px;">
+            <li>Email: example@email.com</li>
+            <li>GitHub: github.com</li>
+        </ul>
     </div>
 </div>
 {% endblock %}

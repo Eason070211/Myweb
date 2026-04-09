@@ -1,0 +1,15 @@
+<article class="post-block">
+    <header class="post-header">
+        <h2 class="post-title"><i class="fas fa-th"></i> 分类</h2>
+    </header>
+    <div class="post-body">
+        <div class="category-list">
+            {% for category in categories %}
+            <div class="category-card" onclick="loadPage('index'); return false;">
+                <div class="category-name">{{ category.name }}</div>
+                <div class="category-count">{{ category.count }} 篇文章</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</article>

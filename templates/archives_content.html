@@ -1,0 +1,20 @@
+<article class="post-block">
+    <header class="post-header">
+        <h2 class="post-title"><i class="fas fa-archive"></i> 文章归档</h2>
+    </header>
+    <div class="post-body">
+        <div class="archive-list">
+            {% for archive in archives %}
+            <div class="archive-year">{{ archive.date }}</div>
+            {% for post in archive.posts %}
+            <div class="archive-post">
+                <span class="archive-post-date">{{ post.date }}</span>
+                <span class="archive-post-title">
+                    <a href="#" onclick="loadPost({{ post.id }}); return false;">{{ post.title }}</a>
+                </span>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</article>

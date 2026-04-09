@@ -1,40 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Contact - My Website{% endblock %}
+{% block title %}联系 - Eason's Website{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-        <h1>Contact Me</h1>
-        <p>Feel free to reach out to me using the form below or through any of the contact methods provided.</p>
+<div class="post-block">
+    <header class="post-header">
+        <h2 class="post-title">联系我</h2>
+    </header>
+    <div class="post-body">
+        <p>如果您有任何问题或建议，欢迎通过以下方式联系我：</p>
         
-        <form method="POST">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="subject" class="form-label">Subject</label>
-                <input type="text" class="form-control" id="subject" name="subject" required>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Message</label>
-                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
-        </form>
-        
-        <div class="mt-5">
-            <h3>Or contact me directly:</h3>
-            <ul>
-                <li>Email: example@email.com</li>
-                <li>Phone: (123) 456-7890</li>
-                <li>Location: City, Country</li>
+        <div style="margin-top: 30px;">
+            <h3>联系方式</h3>
+            <ul style="margin-left: 20px; margin-top: 15px;">
+                <li><strong>Email:</strong> example@email.com</li>
+                <li><strong>GitHub:</strong> github.com</li>
+                <li><strong>Telegram:</strong> @yourusername</li>
             </ul>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>留言</h3>
+            <form method="POST" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">留言内容</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">发送</button>
+            </form>
         </div>
     </div>
 </div>

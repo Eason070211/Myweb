@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Eason's Website{% endblock %}
+
+{% block content %}
+
+<div class="post-block" style="padding: 1.5rem;">
+    <h2>Profile Settings</h2>
+    
+    <form method="POST">
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Status</label>
+            <input type="text" name="status" class="form-control" value="{{ current_user.status or 'Exploring' }}" placeholder="e.g., Currently Exploring">
+        </div>
+        
+        <button type="submit" class="btn">Save</button>
+    </form>
+</div>
+
+{% endblock %}

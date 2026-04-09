@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Archives - Eason's Website{% endblock %}
+
+{% block content %}
+<div class="post-block">
+    <header class="post-header">
+        <h2 class="post-title">Archives</h2>
+    </header>
+    <div class="post-body">
+        {% if archives %}
+        <div class="archive-list">
+            {% for archive in archives %}
+            <div class="archive-year">
+                {{ archive.date }}
+                <span class="year-count">{{ archive.posts|length }}</span>
+            </div>
+            {% for post in archive.posts %}
+            <div class="archive-post">
+                <span class="archive-post-date">{{ post.date[5:] }}</span>
+                <span class="archive-post-title">
+                    <a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a>
+                </span>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No posts yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
