@@ -1,63 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Website{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/13518/13518002.png">
+    <title>{% block title %}Eason's Website{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">My Website</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    {% if current_user.is_authenticated %}
-                        <li class="nav-item">
-                            <span class="nav-link">Hello, {{ current_user.username }}!</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
-                        </li>
+    <!-- Top Bar - Always on top -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a href="{{ url_for('index') }}" class="topbar-brand">Eason</a>
+            <nav class="topbar-nav">
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('new_post') }}" class="topbar-link">Create</a>
+                <a href="{{ url_for('settings') }}" class="topbar-link">Settings</a>
+                <a href="{{ url_for('logout') }}" class="topbar-link">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="topbar-link">Login</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main">
+        <!-- Left Sidebar - Always visible profile -->
+        <aside class="sidebar">
+            <div class="profile-card">
+                <img src="https://ui-avatars.com/api/?name=Eason&background=0D1117&size=120" class="profile-img" alt="Eason">
+                <h1 class="profile-name">Eason</h1>
+                <div class="status-badge">
+                    <i class="fas fa-circle" style="font-size: 8px;"></i> {{ admin_status or 'Exploring' }}
+                </div>
+                <p class="profile-bio">Explorer | Content Creator | Lifelong Learner<br>Creating digital footprints across the web.</p>
+                <div class="footer-socials">
+                    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('index') }}" class="nav-link{% if page == 'index' %} nav-link-active{% endif %}">Home</a>
+                <a href="{{ url_for('tags') }}" class="nav-link{% if page == 'tags' %} nav-link-active{% endif %}">Tags</a>
+                <a href="{{ url_for('categories') }}" class="nav-link{% if page == 'categories' %} nav-link-active{% endif %}">Categories</a>
+                <a href="{{ url_for('archives') }}" class="nav-link{% if page == 'archives' %} nav-link-active{% endif %}">Archives</a>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('new_post') }}" class="nav-link{% if page == 'new_post' %} nav-link-active{% endif %}">Create</a>
+                {% endif %}
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="column">
+            <div class="main-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
                     {% endif %}
-                </ul>
+                {% endwith %}
+                
+                {% block content %}{% endblock %}
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-4">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
-        {% block content %}{% endblock %}
-    </div>
-
-    <footer class="bg-dark text-white text-center py-3 mt-5">
-        <div class="container">
-            <p>&copy; 2026 My Website. All rights reserved.</p>
-        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2026 Eason. All rights reserved.</p>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

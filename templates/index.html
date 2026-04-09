@@ -1,17 +1,103 @@
 {% extends "base.html" %}
 
-{% block title %}Home - My Website{% endblock %}
+{% block title %}Home - Eason's Website{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto text-center">
-        <h1 class="display-4">Welcome to My Website</h1>
-        <p class="lead">This is a portfolio/personal site built with Flask</p>
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('portfolio') }}" class="btn btn-primary btn-lg">View Portfolio</a>
-        {% else %}
-            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">Login to View Portfolio</a>
+
+<!-- Search & Filter Bar -->
+<div class="post-block" style="padding: 1rem; margin-bottom: 1rem;">
+    <form method="GET" action="{{ url_for('index') }}" style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+        {% if category_filter %}<input type="hidden" name="category" value="{{ category_filter }}">{% endif %}
+        {% if tag_filter %}<input type="hidden" name="tag" value="{{ tag_filter }}">{% endif %}
+        <input type="text" name="search" class="form-control" placeholder="Search posts..." value="{{ search or '' }}" style="flex: 1; min-width: 200px;">
+        <button type="submit" class="btn">Search</button>
+        {% if category_filter or tag_filter or search %}
+        <a href="{{ url_for('index') }}" class="btn" style="background: transparent;">Clear</a>
         {% endif %}
+    </form>
+    {% if category_filter or tag_filter or search %}
+    <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+        {% if category_filter %}Category: <strong>{{ category_filter }}</strong>{% endif %}
+        {% if tag_filter %}Tag: <strong>{{ tag_filter }}</strong>{% endif %}
+        {% if search %}Search: <strong>{{ search }}</strong>{% endif %}
     </div>
+    {% endif %}
 </div>
+
+{% if posts %}
+    {% for post in posts %}
+    <article class="post-block animated fadeIn">
+        <header class="post-header">
+            <h2 class="post-title">
+                <a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a>
+                {% if is_admin or current_user_id == post.author_id %}
+                <a href="{{ url_for('edit_post', post_id=post.id) }}" class="edit-post-btn-inline"><i class="fas fa-edit"></i></a>
+                <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display:inline;">
+                    <button type="submit" class="delete-post-btn" onclick="return confirm('Delete this post?');"><i class="fas fa-trash-alt"></i></button>
+                </form>
+                {% endif %}
+            </h2>
+            <div class="post-meta-container">
+                <div class="post-meta">
+                    <span class="post-meta-item">
+                        <span class="post-meta-item-icon"><i class="far fa-user"></i></span>
+                        <span class="post-meta-item-text">{{ post.author }}</span>
+                    </span>
+                    <span class="post-meta-item">
+                        <span class="post-meta-item-icon"><i class="far fa-calendar"></i></span>
+                        <time>{{ post.date }}</time>
+                    </span>
+                    <span class="post-meta-item">
+                        <span class="post-meta-item-icon"><i class="far fa-folder"></i></span>
+                        <a href="{{ url_for('index', category=post.category) }}">{{ post.category }}</a>
+                    </span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="post-body">
+            <p>{{ post.summary }}</p>
+            <div class="post-button">
+                <a class="btn" href="{{ url_for('post_detail', post_id=post.id) }}">Read More »</a>
+            </div>
+        </div>
+        
+        <footer class="post-footer">
+            <div class="post-eof"></div>
+        </footer>
+    </article>
+    {% endfor %}
+{% else %}
+<article class="post-block">
+    <div style="text-align: center; padding: 2rem;">
+        <p style="font-size: 1.2rem; color: #888;">No posts found.</p>
+    </div>
+</article>
+{% endif %}
+
+<style>
+.edit-post-btn-inline {
+    background: rgba(59, 130, 246, 0.15);
+    border: none;
+    color: #7ba9ff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    margin-left: 10px;
+    text-decoration: none;
+}
+.edit-post-btn-inline:hover { background: #3b82f6; color: white; }
+.delete-post-btn {
+    background: rgba(255, 80, 80, 0.15);
+    border: none;
+    color: #ff9e9e;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    margin-left: 5px;
+}
+.delete-post-btn:hover { background: #ff5555; color: white; }
+</style>
 {% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Create - Eason's Website{% endblock %}
+
+{% block content %}
+<div class="post-block">
+    <h2 class="auth-form-title">Create Post</h2>
+    
+    <form method="POST" action="{{ url_for('new_post') }}">
+        <div class="form-group">
+            <label class="form-label" for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="category">Category</label>
+            <select class="form-control" id="category" name="category">
+                <option value="随笔">随笔</option>
+                <option value="技术">技术</option>
+                <option value="学习">学习</option>
+                <option value="生活">生活</option>
+                <option value="旅行">旅行</option>
+                <option value="设计">设计</option>
+                <option value="思考">思考</option>
+                <option value="教程">教程</option>
+                <option value="资源">资源</option>
+                <option value="项目">项目</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="tags">Tags (comma separated)</label>
+            <input type="text" class="form-control" id="tags" name="tags" placeholder="Python, Web, AI">
+            {% if all_tags %}
+            <div style="margin-top: 8px;">
+                <span style="font-size: 12px; color: var(--text-muted);">Existing:</span>
+                {% for tag in all_tags %}
+                <span class="tag-cloud-tag" style="cursor: pointer; margin: 4px;" onclick="document.getElementById('tags').value = document.getElementById('tags').value ? document.getElementById('tags').value + ', {{ tag.name }}' : '{{ tag.name }}'">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="content">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="10" placeholder="Write your content..." required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Publish</button>
+    </form>
+</div>
+{% endblock %}
