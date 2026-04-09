@@ -69,6 +69,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(60))
     is_admin = db.Column(db.Boolean, default=False)
     status = db.Column(db.String(100), default='Exploring')
+    bio = db.Column(db.Text, default='Explorer | Content Creator | Lifelong Learner\nCreating digital footprints across the web.')
+    theme_enabled = db.Column(db.Boolean, default=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -105,11 +107,15 @@ class Tag(db.Model):
 @app.context_processor
 def inject_stats():
     recent = Post.query.order_by(Post.created_at.desc()).limit(10).all()
+    admin = User.query.filter_by(username='admin').first()
     return dict(
         total_posts=Post.query.count(),
         total_categories=len(get_all_categories()),
         total_tags=len(get_all_tags()),
-        recent_posts=recent
+        recent_posts=recent,
+        admin_status=admin.status if admin else 'Exploring',
+        admin_bio=admin.bio if admin else 'Explorer | Content Creator | Lifelong Learner\nCreating digital footprints across the web.',
+        theme_enabled=admin.theme_enabled if admin else False
     )
 
 @login_manager.user_loader
@@ -197,11 +203,12 @@ def index():
     
     admin = User.query.filter_by(username='admin').first()
     admin_status = admin.status if admin else 'Exploring'
+    admin_bio = admin.bio if admin else 'Explorer | Content Creator | Lifelong Learner\nCreating digital footprints across the web.'
     
     return render_template('index.html', posts=posts_data, is_admin=current_user.is_authenticated and current_user.is_admin,
                           current_user_id=current_user.id if current_user.is_authenticated else None, page='index',
                           category_filter=category_filter, tag_filter=tag_filter, search=search_query,
-                          admin_status=admin_status)
+                          admin_status=admin_status, admin_bio=admin_bio)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -265,7 +272,11 @@ def settings():
         return redirect(url_for('index'))
     
     if request.method == 'POST':
-        current_user.status = request.form.get('status', 'Exploring')
+        if request.form.get('status'):
+            current_user.status = request.form.get('status')
+        if request.form.get('bio'):
+            current_user.bio = request.form.get('bio')
+        current_user.theme_enabled = bool(request.form.get('theme_enabled'))
         db.session.commit()
         flash('Settings saved!', 'success')
         return redirect(url_for('settings'))

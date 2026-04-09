@@ -1,93 +1,116 @@
 # My Personal Website
 
-A portfolio/personal website built with Flask, featuring user authentication and responsive design.
+A personal portfolio website built with Flask, featuring the blog-style layout inspired by shiquda and yuhaochen designs.
 
 ## Features
 
-- Home, About, Portfolio, and Contact pages
-- User authentication (login/signup)
-- Responsive design with Bootstrap 5
-- Flash messaging system
-- Static file serving (CSS, JS)
+- **Layout**: Blog-style with right sidebar for profile/contacts, main content area
+- **Navigation**: Top menu with 首页(Home), 标签(Tags), 分类(Categories), 归档(Archives), 登录(Login)
+- **Personal Profile**: Avatar, name, description, contact links (GitHub, Twitter, Email, Telegram, RSS)
+- **Categories**: Grid display showing article counts
+- **Tags**: Cloud style with tag counts
+- **Archives**: Timeline-style monthly post listing
+- **User Authentication**: Login/Signup system with password hashing
+- **Responsive Design**: Works on mobile and desktop
+- **Colors**: Light theme matching shiquda style (#eee background)
 
 ## Requirements
 
 - Python 3.7+
-- pip (Python package manager)
+- pip
 
 ## Installation
 
-1. Clone or download this repository
-2. Navigate to the project directory:
+1. Navigate to project directory:
    ```
    cd Easonswensite
    ```
-3. Install the required packages:
+
+2. Install dependencies:
    ```
-   pip install -r requirements.txt
+   pip install Flask Flask-SQLAlchemy Flask-Login Werkzeug
    ```
 
-## Running the Application
+## Running the Website
 
-1. Set the FLASK_APP environment variable:
+1. Run the Flask app:
    ```
-   set FLASK_APP=app.py
+   python app.py
    ```
-2. Run the Flask development server:
-   ```
-   flask run
-   ```
-3. Open your web browser and go to http://127.0.0.1:5000/
+
+2. Open browser: http://127.0.0.1:5000
 
 ## Project Structure
 
 ```
 Easonswensite/
+├── app.py              # Main Flask application
+├── requirements.txt    # Python dependencies
+├── README.md           # This file
 │
-├── app.py                 # Main application file
-├── requirements.txt       # Python dependencies
-├── README.md              # This file
+├── templates/          # HTML templates
+│   ├── base.html       # Base layout with sidebar
+│   ├── index.html      # Home page
+│   ├── about.html      # About page
+│   ├── contact.html    # Contact page
+│   ├── login.html      # Login page
+│   ├── signup.html     # Signup page
+│   ├── tags.html       # Tags page
+│   ├── categories.html # Categories page
+│   └── archives.html   # Archives page
 │
-├── templates/             # HTML templates
-│   ├── base.html          # Base template
-│   ├── index.html         # Home page
-│   ├── about.html         # About page
-│   ├── portfolio.html     # Portfolio page
-│   ├── contact.html       # Contact page
-│   ├── login.html         # Login page
-│   └── signup.html        # Sign up page
-│
-└── static/                # Static assets
+└── static/             # Static assets
     ├── css/
-    │   └── style.css      # Custom styles
-    └── js/
-        └── main.js        # Custom JavaScript
+    │   └── style.css   # Custom styles (shiquda-style)
+    ├── js/
+    │   └── main.js     # Custom JavaScript
+    └── images/
+        └── avatar.png  # Profile picture
 ```
 
 ## Customization
 
-- Modify the templates in the `templates/` folder to change the content
-- Edit `static/css/style.css` to customize the styling
-- Update `static/js/main.js` to add custom JavaScript functionality
-- Change the secret key in `app.py` for production use
-- Modify the database URI in `app.py` if you want to use a different database
+### Changing Avatar
+Replace `static/images/avatar.png` with your own image (recommended size: 200x200px).
 
-## User Authentication
+### Modifying Contact Links
+Edit the links in `templates/base.html` in the "Contact links" section.
 
-The website includes a simple user authentication system:
-- Users can create accounts with username, email, and password
-- Passwords are securely hashed using Werkzeug
-- Authenticated users can access the portfolio page
-- Flash messages provide feedback on login/signup attempts
+### Adding Categories/Tags/Posts
+Currently sample data is used. To add real functionality, you would need to:
+1. Create database models for posts
+2. Update the routes in `app.py` to query from database
+3. Add admin interface for creating content
 
-## Database
+### Colors
+The color scheme matches shiquda:
+- Background: #eee
+- Content: #fff
+- Text: #555
+- Theme/Brand: #222
 
-The application uses SQLite by default, with the database file `site.db` created automatically in the project directory when the app runs for the first time.
+## Design Reference
 
-## Deployment
+The design is inspired by:
+- **shiquda.link** - Blog layout with right sidebar
+- **yuhaochen** (www.yuhaoc.net) - Clean personal website style
 
-For production deployment, consider:
-- Changing the secret key to a secure random value
-- Using a production WSGI server like Gunicorn
-- Configuring a proper database (PostgreSQL, MySQL, etc.)
-- Setting up environment variables for configuration
+Key features from these references:
+- Fixed right sidebar with profile
+- Navigation menu at top
+- Card-based content blocks
+- Clean typography
+- Category/tag/archives pages
+- Header with gradient (headband)
+- Quote section (hitokoto)
+
+## Pages
+
+1. **首页 (Home)**: Welcome message and introduction
+2. **关于 (About)**: Personal information and skills
+3. **联系 (Contact)**: Contact form and information
+4. **标签 (Tags)**: Cloud display of all tags
+5. **分类 (Categories)**: Grid of categories with post counts
+6. **归档 (Archives)**: Timeline of posts by month
+7. **登录 (Login)**: User login form
+8. **注册 (Signup)**: User registration form

@@ -13,6 +13,12 @@
             <input type="text" name="status" class="form-control" value="{{ current_user.status or 'Exploring' }}" placeholder="e.g., Currently Exploring">
         </div>
         
+        <div style="margin-bottom: 1rem;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" name="theme_enabled" {% if current_user.theme_enabled %}checked{% endif %}> Allow theme toggle for others
+            </label>
+        </div>
+        
         <button type="submit" class="btn">Save</button>
     </form>
 </div>
